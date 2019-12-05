@@ -7,7 +7,7 @@ plugins {
     maven
     jacoco
     id("com.bmuschko.nexus") version "2.3.1"
-    id("org.jetbrains.kotlin.jvm") version "1.3.11"
+    id("org.jetbrains.kotlin.jvm") version "1.3.61"
 }
 
 group = "io.vavr"
