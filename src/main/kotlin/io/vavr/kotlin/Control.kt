@@ -134,7 +134,7 @@ fun <A> success(a: A):
 /**
  * @see Try.failure
  */
-fun <A> failure(t: Exception):
+fun <A> failure(t: Throwable):
         Try<A> = Try.failure(t)
 
 /**
