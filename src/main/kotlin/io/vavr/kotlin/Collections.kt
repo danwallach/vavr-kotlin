@@ -167,7 +167,7 @@ fun <T> kotlin.collections.Set<T>.toVavrSet():
 /**
  * Converts any Kotlin Iterable into a Vavr Set
  */
-fun <T> Iterable<T>.toVavrSet():
+fun <T> kotlin.collections.Iterable<T>.toVavrSet():
         io.vavr.collection.Set<T> = io.vavr.collection.HashSet.ofAll(this)
 
 /**
