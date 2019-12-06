@@ -1,7 +1,6 @@
 package io.vavr.kotlin
 
 import io.vavr.*
-import io.vavr.collection.Seq
 import org.junit.Test
 
 class TuplesKtTest {
@@ -190,6 +189,7 @@ class TuplesKtTest {
         val t2 = tuple(1, "two")
         val p2 = Pair(1, "two")
         val t3 = tuple(1, "two", 3)
+        val p3 = Triple(1, "two", 3)
         val t4 = tuple(1, "two", 3, "four")
         val t5 = tuple(1, "two", 3, "four", 5.0)
         val t6 = tuple(1, "two", 3, "four", 5.0, some(6))
@@ -204,7 +204,9 @@ class TuplesKtTest {
         assert(t2 + t0 == t2)
         assert(p2 + t0 == t2)
         assert(t0 + t3 == t3)
+        assert(t0 + p3 == t3)
         assert(t3 + t0 == t3)
+        assert(p3 + t0 == t3)
         assert(t0 + t4 == t4)
         assert(t4 + t0 == t4)
         assert(t0 + t5 == t5)
@@ -220,6 +222,7 @@ class TuplesKtTest {
         assert(t1 + tuple("two", 3) == t3)
         assert(t1 + Pair("two", 3) == t3)
         assert(t1 + tuple("two", 3, "four") == t4)
+        assert(t1 + Triple("two", 3, "four") == t4)
         assert(t1 + tuple("two", 3, "four", 5.0) == t5)
         assert(t1 + tuple("two", 3, "four", 5.0, some(6)) == t6)
         assert(t1 + tuple("two", 3, "four", 5.0, some(6), some("seven")) == t7)
@@ -229,6 +232,7 @@ class TuplesKtTest {
         assert(t2 + tuple(3, "four") == t4)
         assert(t2 + Pair(3, "four") == t4)
         assert(t2 + tuple(3, "four", 5.0) == t5)
+        assert(t2 + Triple(3, "four", 5.0) == t5)
         assert(t2 + tuple(3, "four", 5.0, some(6)) == t6)
         assert(t2 + tuple(3, "four", 5.0, some(6), some("seven")) == t7)
         assert(t2 + tuple(3, "four", 5.0, some(6), some("seven"), 8) == t8)
@@ -236,6 +240,7 @@ class TuplesKtTest {
         assert(p2 + tuple(3) == t3)
         assert(p2 + tuple(3, "four") == t4)
         assert(p2 + tuple(3, "four", 5.0) == t5)
+        assert(p2 + Triple(3, "four", 5.0) == t5)
         assert(p2 + tuple(3, "four", 5.0, some(6)) == t6)
         assert(p2 + tuple(3, "four", 5.0, some(6), some("seven")) == t7)
         assert(p2 + tuple(3, "four", 5.0, some(6), some("seven"), 8) == t8)
@@ -244,19 +249,28 @@ class TuplesKtTest {
         assert(t3 + tuple("four", 5.0) == t5)
         assert(t3 + Pair("four", 5.0) == t5)
         assert(t3 + tuple("four", 5.0, some(6)) == t6)
+        assert(t3 + Triple("four", 5.0, some(6)) == t6)
         assert(t3 + tuple("four", 5.0, some(6), some("seven")) == t7)
         assert(t3 + tuple("four", 5.0, some(6), some("seven"), 8) == t8)
+
+        assert(p3 + tuple("four") == t4)
+        assert(p3 + tuple("four", 5.0) == t5)
+        assert(p3 + tuple("four", 5.0, some(6)) == t6)
+        assert(p3 + tuple("four", 5.0, some(6), some("seven")) == t7)
+        assert(p3 + tuple("four", 5.0, some(6), some("seven"), 8) == t8)
 
         assert(t4 + tuple(5.0) == t5)
         assert(t4 + tuple(5.0, some(6)) == t6)
         assert(t4 + Pair(5.0, some(6)) == t6)
         assert(t4 + tuple(5.0, some(6), some("seven")) == t7)
+        assert(t4 + Triple(5.0, some(6), some("seven")) == t7)
         assert(t4 + tuple(5.0, some(6), some("seven"), 8) == t8)
 
         assert(t5 + tuple(some(6)) == t6)
         assert(t5 + tuple(some(6), some("seven")) == t7)
         assert(t5 + Pair(some(6), some("seven")) == t7)
         assert(t5 + tuple(some(6), some("seven"), 8) == t8)
+        assert(t5 + Triple(some(6), some("seven"), 8) == t8)
 
         assert(t6 + tuple(some("seven")) == t7)
         assert(t6 + tuple(some("seven"), 8) == t8)
