@@ -20,6 +20,7 @@
 package io.vavr.kotlin
 
 import io.vavr.CheckedFunction0
+import io.vavr.Lazy
 import io.vavr.collection.Seq
 import io.vavr.control.Either
 import io.vavr.control.Option
@@ -142,3 +143,10 @@ fun <A> failure(t: Throwable):
  */
 fun <T> Iterable<Try<T>>.sequence():
         Try<Seq<T>> = Try.sequence(this)
+
+/**
+ * @see Lazy.of
+ */
+fun <T> lazy(f: () -> T)
+        : io.vavr.Lazy<T> = Lazy.of(f)
+

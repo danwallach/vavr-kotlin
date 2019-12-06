@@ -100,7 +100,9 @@ fun <K, V> Iterable<Pair<K, V>>.toVavrMap()
 
 // Kotlin won't let us define this for Iterable<Pair<K, V>> as well as Iterable<Tuple2<K, V>>
 // because those end up with identical JVM type signatures ("platform declaration clash"). So,
-// if we have to pick one, what is the right one to have?
+// if we have to pick one, what is the right one to have? Right now, our assumption is that
+// you're more likely to need extension methods on Kotlin's native types than on VAVR's types,
+// which have everything you need already built-in.
 
 // Despite this, it's perfectly fine to have it for two different array types, as below.
 

@@ -144,4 +144,25 @@ class ControlKtTest {
         assert(x2.isValid)
         assert(x2.get().get(0) == 4)
     }
+
+    @Test
+    fun lazyTest() {
+        val l = lazy { 5 }
+        assert(5 == l.get())
+    }
+
+    object EvalCounter {
+        var counter: Int = 0
+        fun get(): Int = counter++
+    }
+
+    @Test
+    fun lazyEvaluatesOnce() {
+        val l = lazy { EvalCounter.get() }
+        assert(EvalCounter.counter == 0)
+        assert(l.get() == 0)
+        assert(EvalCounter.counter == 1)
+        assert(l.get() == 0)
+        assert(EvalCounter.counter == 1)
+    }
 }

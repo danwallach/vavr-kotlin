@@ -108,6 +108,12 @@ class TuplesKtTest {
     }
 
     @Test
+    fun components1() {
+        val (v1) = tuple(1)
+        assert(v1 == 1)
+    }
+
+    @Test
     fun components2() {
         val (v1, v2) = tuple(1, 2)
         assert(v1 == 1)
@@ -175,5 +181,87 @@ class TuplesKtTest {
         assert(v6 == 6)
         assert(v7 == 7)
         assert(v8 == 8)
+    }
+
+    @Test
+    fun plusOperations() {
+        val t0 = emptyTuple()
+        val t1 = tuple(1)
+        val t2 = tuple(1, "two")
+        val p2 = Pair(1, "two")
+        val t3 = tuple(1, "two", 3)
+        val t4 = tuple(1, "two", 3, "four")
+        val t5 = tuple(1, "two", 3, "four", 5.0)
+        val t6 = tuple(1, "two", 3, "four", 5.0, some(6))
+        val t7 = tuple(1, "two", 3, "four", 5.0, some(6), some("seven"))
+        val t8 = tuple(1, "two", 3, "four", 5.0, some(6), some("seven"), 8)
+
+        assert(t0 + t0 == t0)
+        assert(t0 + t1 == t1)
+        assert(t1 + t0 == t1)
+        assert(t0 + t2 == t2)
+        assert(t0 + p2 == t2)
+        assert(t2 + t0 == t2)
+        assert(p2 + t0 == t2)
+        assert(t0 + t3 == t3)
+        assert(t3 + t0 == t3)
+        assert(t0 + t4 == t4)
+        assert(t4 + t0 == t4)
+        assert(t0 + t5 == t5)
+        assert(t5 + t0 == t5)
+        assert(t0 + t6 == t6)
+        assert(t6 + t0 == t6)
+        assert(t0 + t7 == t7)
+        assert(t7 + t0 == t7)
+        assert(t0 + t8 == t8)
+        assert(t8 + t0 == t8)
+
+        assert(t1 + tuple("two") == t2)
+        assert(t1 + tuple("two", 3) == t3)
+        assert(t1 + Pair("two", 3) == t3)
+        assert(t1 + tuple("two", 3, "four") == t4)
+        assert(t1 + tuple("two", 3, "four", 5.0) == t5)
+        assert(t1 + tuple("two", 3, "four", 5.0, some(6)) == t6)
+        assert(t1 + tuple("two", 3, "four", 5.0, some(6), some("seven")) == t7)
+        assert(t1 + tuple("two", 3, "four", 5.0, some(6), some("seven"), 8) == t8)
+
+        assert(t2 + tuple(3) == t3)
+        assert(t2 + tuple(3, "four") == t4)
+        assert(t2 + Pair(3, "four") == t4)
+        assert(t2 + tuple(3, "four", 5.0) == t5)
+        assert(t2 + tuple(3, "four", 5.0, some(6)) == t6)
+        assert(t2 + tuple(3, "four", 5.0, some(6), some("seven")) == t7)
+        assert(t2 + tuple(3, "four", 5.0, some(6), some("seven"), 8) == t8)
+
+        assert(p2 + tuple(3) == t3)
+        assert(p2 + tuple(3, "four") == t4)
+        assert(p2 + tuple(3, "four", 5.0) == t5)
+        assert(p2 + tuple(3, "four", 5.0, some(6)) == t6)
+        assert(p2 + tuple(3, "four", 5.0, some(6), some("seven")) == t7)
+        assert(p2 + tuple(3, "four", 5.0, some(6), some("seven"), 8) == t8)
+
+        assert(t3 + tuple("four") == t4)
+        assert(t3 + tuple("four", 5.0) == t5)
+        assert(t3 + Pair("four", 5.0) == t5)
+        assert(t3 + tuple("four", 5.0, some(6)) == t6)
+        assert(t3 + tuple("four", 5.0, some(6), some("seven")) == t7)
+        assert(t3 + tuple("four", 5.0, some(6), some("seven"), 8) == t8)
+
+        assert(t4 + tuple(5.0) == t5)
+        assert(t4 + tuple(5.0, some(6)) == t6)
+        assert(t4 + Pair(5.0, some(6)) == t6)
+        assert(t4 + tuple(5.0, some(6), some("seven")) == t7)
+        assert(t4 + tuple(5.0, some(6), some("seven"), 8) == t8)
+
+        assert(t5 + tuple(some(6)) == t6)
+        assert(t5 + tuple(some(6), some("seven")) == t7)
+        assert(t5 + Pair(some(6), some("seven")) == t7)
+        assert(t5 + tuple(some(6), some("seven"), 8) == t8)
+
+        assert(t6 + tuple(some("seven")) == t7)
+        assert(t6 + tuple(some("seven"), 8) == t8)
+        assert(t6 + Pair(some("seven"), 8) == t8)
+
+        assert(t7 + tuple(8) == t8)
     }
 }
