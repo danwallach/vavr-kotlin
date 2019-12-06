@@ -78,6 +78,11 @@ class CollectionsKtTest {
     }
 
     @Test
+    fun toVavrMap5() {
+        assert(hashMap(1 to 2, 3 to 4) == list(tuple(1, 2), tuple(3, 4)).toVavrMap())
+    }
+
+    @Test
     fun toMutableMap() {
         val mutableMap: Map<Int, Int> = io.vavr.collection.HashMap.of(1, 2).toMutableMap()
         assert(mutableMap[1] == 2)
@@ -188,9 +193,12 @@ class CollectionsKtTest {
 
         assert(result == vmap1 + arrayOf(7 to 8, 9 to 10))
         assert(result == vmap1 + arrayOf(tuple(7, 8), tuple(9, 10)))
+
+        assert(result == vmap1 + listOf(7 to 8, 9 to 10))
+        assert(result == vmap1 + sequenceOf(7 to 8, 9 to 10))
+
         assert(result == vmap1 + list(tuple(7, 8), tuple(9, 10)))
         assert(result == vmap1 + stream(tuple(7, 8), tuple(9, 10)))
-        assert(result == vmap1 + sequenceOf(7 to 8, 9 to 10))
     }
 
     @Test
