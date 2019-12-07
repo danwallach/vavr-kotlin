@@ -226,7 +226,7 @@ operator fun <K, V> io.vavr.collection.Map<K, V>.contains(k: K)
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(m: io.vavr.collection.Map<out K, out V>)
         : io.vavr.collection.Map<K, V> = merge(m)
 
-operator fun <K, V> kotlin.collections.Map<K, V>.plus(m: io.vavr.collection.Map<out K, V>)
+operator fun <K, V> kotlin.collections.Map<K, V>.plus(m: io.vavr.collection.Map<out K, out V>)
         : io.vavr.collection.Map<K, V> = toVavrMap() + m
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(m: kotlin.collections.Map<out K, V>)
