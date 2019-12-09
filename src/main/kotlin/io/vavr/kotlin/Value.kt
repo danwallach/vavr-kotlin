@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package io.vavr.kotlin
 
 import io.vavr.*
@@ -55,7 +57,9 @@ import java.util.stream.Collector
  * so it has the nice property that it doesn't allocate any extra memory, yet by using it we have
  * the benefit of additional Kotlin features that Java cannot provide us. In particular, once you
  * wrap an [io.vavr.Value], perhaps using [io.vavr.Value.toKotlin], thereafter the type parameter's
- * inferred nullity will be correct.
+ * inferred nullity will be correct (e.g., once you have `io.vavr.kotlin.Value<String>` and you operate on it,
+ * you'll never end up with `Value<String!>`). Also, unlike [io.vavr.Value], when you use [io.vavr.kotlin.Value]
+ * it's declared to be covariant in its type parameter, so you'll have less issues with narrowing or typecasting.
  */
 inline class Value<out T>(val value: io.vavr.Value<out T>) : Iterable<T> {
     /**
@@ -496,7 +500,7 @@ fun <T, SET : kotlin.collections.MutableSet<T>> io.vavr.kotlin.Value<T>.toJavaSe
 
 /**
  * Converts this to a sequential [java.util.stream.Stream] by calling
- * `StreamSupport.stream(this.spliterator(), false)`.
+ * `StreamSupport.stream(this.spliterator, false)`.
  *
  * @return A new sequential [java.util.stream.Stream].
  * @see Value.spliterator
@@ -506,7 +510,7 @@ fun <T> io.vavr.kotlin.Value<T>.toJavaStream()
 
 /**
  * Converts this to a parallel [java.util.stream.Stream] by calling
- * `StreamSupport.stream(this.spliterator(), true)`.
+ * `StreamSupport.stream(this.spliterator, true)`.
  *
  * @return A new parallel [java.util.stream.Stream].
  * @see Value.spliterator
@@ -858,3 +862,10 @@ fun <T, E> io.vavr.kotlin.Value<T>.toValid(error: E)
 fun <T, E> io.vavr.kotlin.Value<T>.toValid(errorSupplier: () -> E)
         : Validation<E, T> = toValid(errorSupplier)
 
+/**
+ * Get a spliterator for the given Value.
+ */
+@Suppress("UNCHECKED_CAST")
+val <T> io.vavr.kotlin.Value<T>.spliterator: Spliterator<T>
+    get() = value.spliterator() as Spliterator<T>
+// Total hack: using a Kotlin property lets us avoid conflicts with java.util.Iterable.spliterator()
