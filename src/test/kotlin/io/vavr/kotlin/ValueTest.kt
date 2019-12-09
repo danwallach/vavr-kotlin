@@ -75,12 +75,4 @@ class ValueTest {
         assert(!ka.isEmpty())
         assert(ka() == null)
     }
-
-    @Test
-    fun spliteratorWorks() {
-        val os = some("Hello") as io.vavr.Value<String>
-        val ks = os.toKotlin() // inferred type: io.vavr.kotlin.Value<String>
-
-        val s = ks.spliterator
-    }
 }
