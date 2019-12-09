@@ -1,5 +1,6 @@
 import groovy.lang.Closure
 import java.net.URI
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `jvm-component`
@@ -101,3 +102,7 @@ nexus {
     sign = !version.toString().endsWith("SNAPSHOT")
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    freeCompilerArgs = listOf("-Xinline-classes")
+}
