@@ -867,5 +867,6 @@ fun <T, E> io.vavr.kotlin.Value<T>.toValid(errorSupplier: () -> E)
  */
 @Suppress("UNCHECKED_CAST")
 val <T> io.vavr.kotlin.Value<T>.spliterator: Spliterator<T>
-    get() = value.spliterator() as Spliterator<T>
+    get() = (value as io.vavr.kotlin.Value<T>).spliterator()
 // Total hack: using a Kotlin property lets us avoid conflicts with java.util.Iterable.spliterator()
+
