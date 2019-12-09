@@ -69,7 +69,7 @@ class ValueTest {
 
     @Test
     fun nullableTypeParametersWork() {
-        val va = some<String?>(null) // inferred type: io.vavr.kotlin.Option<String?>
+        val va = some<String?>(null) // inferred type: io.vavr.control.Option<String?>
         val ka = va.toKotlin() // inferred type: io.vavr.kotlin.Value<String?>
 
         assert(!ka.isEmpty())
