@@ -1,10 +1,11 @@
-package io.vavr.kotlin
+package io.vavr.kotlin.control
 
 import io.vavr.collection.Seq
 import io.vavr.control.Either
 import io.vavr.control.Option
 import io.vavr.control.Try
 import io.vavr.control.Validation
+import io.vavr.kotlin.collection.list
 import org.junit.Test
 
 class ControlKtTest {
@@ -89,7 +90,7 @@ class ControlKtTest {
 
     @Test
     fun trySequence() {
-        val x: Try<Seq<Int>> = list(`try`{1}, `try`{1}).sequence()
+        val x: Try<Seq<Int>> = list(`try` { 1 }, `try` { 1 }).sequence()
         assert(x.get().size() == 2)
     }
 

@@ -19,7 +19,7 @@
  */
 @file:Suppress("RemoveRedundantQualifierName")
 
-package io.vavr.kotlin
+package io.vavr.kotlin.collection
 
 import io.vavr.Tuple2
 import io.vavr.Value
@@ -27,6 +27,7 @@ import io.vavr.collection.List
 import io.vavr.collection.Map
 import io.vavr.collection.Seq
 import io.vavr.collection.Stream
+import io.vavr.kotlin.tuple
 
 /**
  * Constructors and Kotlin collection converters for the Vavr collection values
@@ -230,28 +231,28 @@ operator fun <K, V> kotlin.collections.Map<K, V>.plus(m: io.vavr.collection.Map<
         : io.vavr.collection.Map<K, V> = toVavrMap() + m
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(m: kotlin.collections.Map<out K, V>)
-        : io.vavr.collection.Map<K, V> = merge(m.toVavrMap())
+        : io.vavr.collection.Map<K, V> = this + m.toVavrMap()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(pair: Pair<K, V>)
-        : io.vavr.collection.Map<K, V> = put(pair.tuple())
+        : io.vavr.collection.Map<K, V> = this + pair.tuple()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(t: Tuple2<K, V>)
         : io.vavr.collection.Map<K, V> = put(t)
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(tuples: Sequence<Pair<K, V>>)
-        : io.vavr.collection.Map<K, V> = merge(tuples.toVavrMap())
+        : io.vavr.collection.Map<K, V> = this + tuples.toVavrMap()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(tuples: kotlin.collections.Iterable<Pair<K, V>>)
-        : io.vavr.collection.Map<K, V> = merge(tuples.toVavrMap())
+        : io.vavr.collection.Map<K, V> = this + tuples.toVavrMap()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(tuples: Array<out Tuple2<K, V>>)
-        : io.vavr.collection.Map<K, V> = merge(tuples.toVavrMap())
+        : io.vavr.collection.Map<K, V> = this + tuples.toVavrMap()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(tuples: Array<out Pair<K, V>>)
-        : io.vavr.collection.Map<K, V> = merge(tuples.toVavrMap())
+        : io.vavr.collection.Map<K, V> = this + tuples.toVavrMap()
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.plus(tuples: Seq<Tuple2<K, V>>)
-        : io.vavr.collection.Map<K, V> = merge(tuples.toMap { it })
+        : io.vavr.collection.Map<K, V> = this + tuples.toMap { it }
 
 operator fun <K, V> io.vavr.collection.Map<K, V>.minus(keys: io.vavr.collection.Set<out K>)
         : io.vavr.collection.Map<K, V> = removeAll(keys)
@@ -285,25 +286,25 @@ operator fun <T> io.vavr.collection.Set<T>.plus(s: io.vavr.collection.Set<out T>
         : io.vavr.collection.Set<T> = union(s)
 
 operator fun <T> io.vavr.collection.Set<T>.plus(s: kotlin.collections.Set<T>)
-        : io.vavr.collection.Set<T> = union(s.toVavrSet())
+        : io.vavr.collection.Set<T> = this + s.toVavrSet()
 
 operator fun <T> kotlin.collections.Set<T>.plus(s: io.vavr.collection.Set<T>)
-        : io.vavr.collection.Set<T> = s.union(this.toVavrSet())
+        : io.vavr.collection.Set<T> = toVavrSet() + s
 
 operator fun <T> io.vavr.collection.Set<T>.plus(e: T)
         : io.vavr.collection.Set<T> = add(e)
 
 operator fun <T> io.vavr.collection.Set<T>.plus(elements: Sequence<T>)
-        : io.vavr.collection.Set<T> = union(elements.asIterable().toVavrSet())
+        : io.vavr.collection.Set<T> = this + elements.asIterable().toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.plus(elements: kotlin.collections.Iterable<T>)
-        : io.vavr.collection.Set<T> = union(elements.toVavrSet())
+        : io.vavr.collection.Set<T> = this + elements.toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.plus(elements: Array<out T>)
-        : io.vavr.collection.Set<T> = union(elements.toVavrSet())
+        : io.vavr.collection.Set<T> = this + elements.toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.plus(elements: Seq<T>)
-        : io.vavr.collection.Set<T> = plus(elements.asIterable())
+        : io.vavr.collection.Set<T> = this + elements.asIterable()
 
 operator fun <T> io.vavr.collection.Set<T>.minus(s: io.vavr.collection.Set<out T>)
         : io.vavr.collection.Set<T> = diff(s)
@@ -312,22 +313,22 @@ operator fun <T> kotlin.collections.Set<T>.minus(s: io.vavr.collection.Set<out T
         : io.vavr.collection.Set<T> = toVavrSet().diff(s)
 
 operator fun <T> io.vavr.collection.Set<T>.minus(s: kotlin.collections.Set<T>)
-        : io.vavr.collection.Set<T> = diff(s.toVavrSet())
+        : io.vavr.collection.Set<T> = this - s.toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.minus(e: T)
         : io.vavr.collection.Set<T> = remove(e)
 
 operator fun <T> io.vavr.collection.Set<T>.minus(elements: Sequence<T>)
-        : io.vavr.collection.Set<T> = diff(elements.asIterable().toVavrSet())
+        : io.vavr.collection.Set<T> = this - elements.asIterable().toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.minus(elements: kotlin.collections.Iterable<T>)
-        : io.vavr.collection.Set<T> = diff(elements.toVavrSet())
+        : io.vavr.collection.Set<T> = this - elements.toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.minus(elements: Array<out T>)
-        : io.vavr.collection.Set<T> = diff(elements.toVavrSet())
+        : io.vavr.collection.Set<T> = this - elements.toVavrSet()
 
 operator fun <T> io.vavr.collection.Set<T>.minus(elements: Seq<T>)
-        : io.vavr.collection.Set<T> = minus(elements.asIterable())
+        : io.vavr.collection.Set<T> = this - elements.asIterable()
 
 ////////////////////////////////////////////////////////////////////////////////
 // Extension functions for VAVR's Seq to feel more like Kotlin's List / Sequence

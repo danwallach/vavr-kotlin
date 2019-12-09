@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.vavr.kotlin
+package io.vavr.kotlin.control
 
 import io.vavr.CheckedFunction0
 import io.vavr.Lazy

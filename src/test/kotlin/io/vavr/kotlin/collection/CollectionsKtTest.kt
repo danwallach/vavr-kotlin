@@ -1,18 +1,22 @@
-package io.vavr.kotlin
+package io.vavr.kotlin.collection
 
+import io.vavr.kotlin.control.Try
+import io.vavr.kotlin.control.none
+import io.vavr.kotlin.control.some
+import io.vavr.kotlin.tuple
 import org.junit.Test
 import java.lang.IllegalArgumentException
 
 class CollectionsKtTest {
     @Test
     fun list() {
-        val list: io.vavr.collection.List<Int> = list(1, 2, 3)
+        val list: io.vavr.collection.List<Int> = io.vavr.kotlin.collection.list(1, 2, 3)
         assert(list.size() == 3)
     }
 
     @Test
     fun toMutableList() {
-        val mutableList: List<Int> = list(1, 2, 3).toMutableList()
+        val mutableList: List<Int> = io.vavr.kotlin.collection.list(1, 2, 3).toMutableList()
         assert(mutableList.size == 3)
     }
 
@@ -30,7 +34,7 @@ class CollectionsKtTest {
 
     @Test
     fun stream() {
-        val stream: io.vavr.collection.Stream<Int> = stream(1, 2, 3)
+        val stream: io.vavr.collection.Stream<Int> = io.vavr.kotlin.collection.stream(1, 2, 3)
         assert(stream.size() == 3)
     }
 
@@ -79,7 +83,7 @@ class CollectionsKtTest {
 
     @Test
     fun toVavrMap5() {
-        assert(hashMap(1 to 2, 3 to 4) == list(tuple(1, 2), tuple(3, 4)).toVavrMap())
+        assert(io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4) == io.vavr.kotlin.collection.list(tuple(1, 2), tuple(3, 4)).toVavrMap())
     }
 
     @Test
@@ -90,19 +94,19 @@ class CollectionsKtTest {
 
     @Test
     fun hashMap() {
-        val vavrMap: io.vavr.collection.HashMap<Int, Int> = hashMap(Pair(1, 2))
+        val vavrMap: io.vavr.collection.HashMap<Int, Int> = io.vavr.kotlin.collection.hashMap(Pair(1, 2))
         assert(vavrMap.get(1).get() == 2)
     }
 
     @Test
     fun linkedHashMap() {
-        val vavrMap: io.vavr.collection.LinkedHashMap<Int, Int> = linkedHashMap(Pair(1, 2))
+        val vavrMap: io.vavr.collection.LinkedHashMap<Int, Int> = io.vavr.kotlin.collection.linkedHashMap(Pair(1, 2))
         assert(vavrMap.get(1).get() == 2)
     }
 
     @Test
     fun treeMap() {
-        val vavrMap: io.vavr.collection.Map<Int, Int> = treeMap(Pair(1, 2))
+        val vavrMap: io.vavr.collection.Map<Int, Int> = io.vavr.kotlin.collection.treeMap(Pair(1, 2))
         assert(vavrMap.get(1).get() == 2)
     }
 
@@ -130,44 +134,44 @@ class CollectionsKtTest {
 
     @Test
     fun hashSet() {
-        val vavrSet: io.vavr.collection.HashSet<Int> = hashSet(1, 2, 3)
+        val vavrSet: io.vavr.collection.HashSet<Int> = io.vavr.kotlin.collection.hashSet(1, 2, 3)
         assert(vavrSet.size() == 3)
     }
 
     @Test
     fun linkedHashSet() {
-        val vavrSet: io.vavr.collection.LinkedHashSet<Int> = linkedHashSet(1, 2, 3)
+        val vavrSet: io.vavr.collection.LinkedHashSet<Int> = io.vavr.kotlin.collection.linkedHashSet(1, 2, 3)
         assert(vavrSet.size() == 3)
     }
 
     @Test
     fun treeSet() {
-        val vavrSet: io.vavr.collection.TreeSet<Int> = treeSet(1, 2, 3)
+        val vavrSet: io.vavr.collection.TreeSet<Int> = io.vavr.kotlin.collection.treeSet(1, 2, 3)
         assert(vavrSet.size() == 3)
     }
 
     @Test
     fun getOrNull() {
-        assert(hashMap(Pair(1, 2)).getOrNull(1) == 2)
-        assert(hashMap(Pair(1, 2)).getOrNull(2) == null)
+        assert(io.vavr.kotlin.collection.hashMap(Pair(1, 2)).getOrNull(1) == 2)
+        assert(io.vavr.kotlin.collection.hashMap(Pair(1, 2)).getOrNull(2) == null)
     }
 
     @Test
     fun mapFields() {
-        val map = io.vavr.kotlin.hashMap(1 to 2, 3 to 4, 5 to 6)
+        val map = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6)
         val mapKeys = map.keys
         val mapValues = map.values
         val mapEntries = map.entries
 
         assert(map.size == 3)
-        assert(mapKeys == hashSet(1, 3, 5))
+        assert(mapKeys == io.vavr.kotlin.collection.hashSet(1, 3, 5))
         assert(mapValues.size() == 3)
         assert(mapEntries.size() == 3)
     }
 
     @Test
     fun mapContains() {
-        val map = io.vavr.kotlin.hashMap(1 to 2, 3 to 4, 5 to 6)
+        val map = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6)
         assert(3 in map)
         assert(!(4 in map))
         assert(map.get(3) == some(4))
@@ -177,9 +181,9 @@ class CollectionsKtTest {
     @Test
     fun mapPlusMap() {
         val kmap = hashMapOf(1 to 2, 3 to 4, 5 to 6) // kotlin
-        val vmap1 = hashMap(1 to 2, 3 to 4, 5 to 6) // vavr
-        val vmap2 = hashMap(7 to 8, 9 to 10) // vavr
-        val result = hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8, 9 to 10) // vavr
+        val vmap1 = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6) // vavr
+        val vmap2 = io.vavr.kotlin.collection.hashMap(7 to 8, 9 to 10) // vavr
+        val result = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8, 9 to 10) // vavr
 
         assert(kmap.toVavrMap() == vmap1)
 
@@ -197,18 +201,18 @@ class CollectionsKtTest {
         assert(result == vmap1 + listOf(7 to 8, 9 to 10))
         assert(result == vmap1 + sequenceOf(7 to 8, 9 to 10))
 
-        assert(result == vmap1 + list(tuple(7, 8), tuple(9, 10)))
-        assert(result == vmap1 + stream(tuple(7, 8), tuple(9, 10)))
+        assert(result == vmap1 + io.vavr.kotlin.collection.list(tuple(7, 8), tuple(9, 10)))
+        assert(result == vmap1 + io.vavr.kotlin.collection.stream(tuple(7, 8), tuple(9, 10)))
     }
 
     @Test
     fun mapMinusMap() {
-        val start = hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8, 9 to 10) // vavr
-        val result = hashMap(7 to 8, 9 to 10) // vavr
+        val start = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8, 9 to 10) // vavr
+        val result = io.vavr.kotlin.collection.hashMap(7 to 8, 9 to 10) // vavr
 
         assert(start - setOf(1, 3, 5) == result)
-        assert(start - hashSet(1, 3, 5) == result)
-        assert(start - list(1, 3, 5) == result)
+        assert(start - io.vavr.kotlin.collection.hashSet(1, 3, 5) == result)
+        assert(start - io.vavr.kotlin.collection.list(1, 3, 5) == result)
         assert(start - listOf(1, 3, 5) == result)
         assert(start - arrayOf(1, 3, 5) == result)
         assert(start - 1 - 3 - 5 == result)
@@ -217,8 +221,8 @@ class CollectionsKtTest {
 
     @Test
     fun mapPlusPoint() {
-        val vmap = hashMap(1 to 2, 3 to 4, 5 to 6)
-        val vmap2 = hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8)
+        val vmap = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6)
+        val vmap2 = io.vavr.kotlin.collection.hashMap(1 to 2, 3 to 4, 5 to 6, 7 to 8)
 
         val vmapPlus = vmap + tuple(7, 8)
         assert(vmap2 == vmapPlus)
@@ -229,18 +233,18 @@ class CollectionsKtTest {
 
     @Test
     fun setSizeField() {
-        assert(0 == hashSet<Int>().size)
-        assert(3 == hashSet(1, 3, 5).size)
+        assert(0 == io.vavr.kotlin.collection.hashSet<Int>().size)
+        assert(3 == io.vavr.kotlin.collection.hashSet(1, 3, 5).size)
     }
 
     @Test
     fun setUnionAndDifference() {
-        val vset1 = hashSet(1, 3, 5)
+        val vset1 = io.vavr.kotlin.collection.hashSet(1, 3, 5)
         val kset1 = setOf(1, 3, 5)
-        val vset2 = hashSet(1, 2, 3)
+        val vset2 = io.vavr.kotlin.collection.hashSet(1, 2, 3)
         val kset2 = setOf(1, 2, 3)
-        val vunion = hashSet(1, 2, 3, 5)
-        val vdiff = hashSet(5)
+        val vunion = io.vavr.kotlin.collection.hashSet(1, 2, 3, 5)
+        val vdiff = io.vavr.kotlin.collection.hashSet(5)
 
         assert(vset1 + vset2 == vunion)
         assert(vset1 - vset2 == vdiff)
@@ -251,13 +255,13 @@ class CollectionsKtTest {
         assert(kset1 + vset2 == vunion)
         assert(kset1 - vset2 == vdiff)
 
-        assert(vset1 + list(1, 2, 3) == vunion)
+        assert(vset1 + io.vavr.kotlin.collection.list(1, 2, 3) == vunion)
         assert(vset1 + listOf(1, 2, 3) == vunion)
         assert(vset1 + arrayOf(1, 2, 3) == vunion)
         assert(vset1 + sequenceOf(1, 2, 3) == vunion)
         assert(vset1 + 1 + 2 + 3 == vunion)
 
-        assert(vset1 - list(1, 2, 3) == vdiff)
+        assert(vset1 - io.vavr.kotlin.collection.list(1, 2, 3) == vdiff)
         assert(vset1 - listOf(1, 2, 3) == vdiff)
         assert(vset1 - arrayOf(1, 2, 3) == vdiff)
         assert(vset1 - sequenceOf(1, 2, 3) == vdiff)
@@ -266,12 +270,12 @@ class CollectionsKtTest {
 
     @Test
     fun seqPlusOperations() {
-        val vseq = list(1, 2, 3)
-        assert(list(0, 1, 2, 3) == 0 + vseq)
-        assert(list(1, 2, 3, 4) == vseq + 4)
+        val vseq = io.vavr.kotlin.collection.list(1, 2, 3)
+        assert(io.vavr.kotlin.collection.list(0, 1, 2, 3) == 0 + vseq)
+        assert(io.vavr.kotlin.collection.list(1, 2, 3, 4) == vseq + 4)
 
-        val vsum = list(1, 2, 3, 4, 5, 6)
-        val vseq2 = list(4, 5, 6)
+        val vsum = io.vavr.kotlin.collection.list(1, 2, 3, 4, 5, 6)
+        val vseq2 = io.vavr.kotlin.collection.list(4, 5, 6)
 
         // Doesn't work. Ends up binding to Collection.plus(Iterable)
 //        assert(listOf(1, 2, 3) + vseq2 == vsum)
@@ -279,7 +283,7 @@ class CollectionsKtTest {
 
         assert(arrayOf(1, 2, 3) + vseq2 == vsum)
         assert(sequenceOf(1, 2, 3) + vseq2 == vsum)
-        assert(list(1, 2, 3) + vseq2 == vsum)
+        assert(io.vavr.kotlin.collection.list(1, 2, 3) + vseq2 == vsum)
 
         assert(vseq + listOf(4, 5, 6) == vsum)
         assert(vseq + sequenceOf(4, 5, 6) == vsum)
@@ -288,10 +292,10 @@ class CollectionsKtTest {
 
     @Test
     fun seqMinusOperations() {
-        val vseq = list(1, 2, 3, 4)
-        val result = list(1, 2)
+        val vseq = io.vavr.kotlin.collection.list(1, 2, 3, 4)
+        val result = io.vavr.kotlin.collection.list(1, 2)
 
-        assert(vseq - list(4, 3, 7) == result)
+        assert(vseq - io.vavr.kotlin.collection.list(4, 3, 7) == result)
         assert(vseq - 4 - 3 - 7 == result)
         assert(vseq - listOf(4, 3, 7) == result)
         assert(vseq - sequenceOf(4, 3, 7) == result)
@@ -300,7 +304,7 @@ class CollectionsKtTest {
 
     @Test
     fun seqComponents() {
-        val vseq = list(1, 2, 3, 4, 5, 6)
+        val vseq = io.vavr.kotlin.collection.list(1, 2, 3, 4, 5, 6)
         val (v1, v2, v3, v4, v5) = vseq
 
         assert(v1 == 1)
@@ -312,8 +316,8 @@ class CollectionsKtTest {
 
     @Test
     fun nullFilters() {
-        assert(list("Hello", null, "World").filterNotNull() == list("Hello", "World"))
-        assert(list("Hello", "World").requireNoNulls() == list("Hello", "World"))
+        assert(io.vavr.kotlin.collection.list("Hello", null, "World").filterNotNull() == io.vavr.kotlin.collection.list("Hello", "World"))
+        assert(io.vavr.kotlin.collection.list("Hello", "World").requireNoNulls() == io.vavr.kotlin.collection.list("Hello", "World"))
 
         val shouldFail = Try { list("Hello", null).requireNoNulls() }
         assert(shouldFail.isFailure)

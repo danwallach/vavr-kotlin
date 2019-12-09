@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
+    compile(kotlin("stdlib-jdk8", "1.3.61"))
     compile("io.vavr:vavr:1.0.0-SNAPSHOT")
     testCompile("junit:junit:4.12")
 }
