@@ -363,14 +363,16 @@ fun <T: Any> io.vavr.kotlin.Value<T>.getOrNull()
  *
  * @return A new [Array].
  */
-fun <T> io.vavr.kotlin.Value<T>.toArray(): Array<out T> = value.toArray()
+fun <T> io.vavr.kotlin.Value<T>.toArray()
+        : Array<out T> = value.toArray()
 
 /**
  * Converts this to a [CharSeq].
  *
  * @return A new [CharSeq].
  */
-fun <T> io.vavr.kotlin.Value<T>.toCharSeq(): CharSeq = value.toCharSeq()
+fun <T> io.vavr.kotlin.Value<T>.toCharSeq()
+        : CharSeq = value.toCharSeq()
 
 /**
  * Converts this to a [CompletableFuture]
@@ -378,7 +380,8 @@ fun <T> io.vavr.kotlin.Value<T>.toCharSeq(): CharSeq = value.toCharSeq()
  * @return A new [CompletableFuture] containing the value
  */
 @Suppress("UNCHECKED_CAST")
-fun <T> io.vavr.kotlin.Value<T>.toCompletableFuture(): CompletableFuture<T> = value.toCompletableFuture() as CompletableFuture<T>
+fun <T> io.vavr.kotlin.Value<T>.toCompletableFuture()
+        : CompletableFuture<T> = value.toCompletableFuture() as CompletableFuture<T>
 
 /**
  * Converts this to a [Validation].
@@ -389,7 +392,8 @@ fun <T> io.vavr.kotlin.Value<T>.toCompletableFuture(): CompletableFuture<T> = va
  * a new [Validation.Invalid] containing this value.
  */
 @Deprecated("Use Value.toValidation instead.")
-fun <T, U> io.vavr.kotlin.Value<T>.toInvalid(value: U): Validation<T, U> = Validation.narrow(this.value.toInvalid(value))
+fun <T, U> io.vavr.kotlin.Value<T>.toInvalid(value: U)
+        : Validation<T, U> = Validation.narrow(this.value.toInvalid(value))
 
 /**
  * Converts this to a [Validation].
@@ -483,7 +487,7 @@ fun <T, K, V, MAP : kotlin.collections.MutableMap<K, V>> io.vavr.kotlin.Value<T>
         : MAP = value.toJavaMap(factory, f)
 
 /**
- * Converts this to an [java.util.Optional].
+ * Converts this to a [java.util.Optional].
  */
 fun <T> io.vavr.kotlin.Value<T>.toJavaOptional()
         : java.util.Optional<T>  = Value.narrow(value).toJavaOptional()
@@ -506,7 +510,7 @@ fun <T, SET : kotlin.collections.MutableSet<T>> io.vavr.kotlin.Value<T>.toJavaSe
 
 /**
  * Converts this to a sequential [java.util.stream.Stream] by calling
- * `StreamSupport.stream(this.spliterator, false)`.
+ * `StreamSupport.stream(this.spliterator(), false)`.
  *
  * @return A new sequential [java.util.stream.Stream].
  * @see Value.spliterator
@@ -516,7 +520,7 @@ fun <T> io.vavr.kotlin.Value<T>.toJavaStream()
 
 /**
  * Converts this to a parallel [java.util.stream.Stream] by calling
- * `StreamSupport.stream(this.spliterator, true)`.
+ * `StreamSupport.stream(this.spliterator(), true)`.
  *
  * @return A new parallel [java.util.stream.Stream].
  * @see Value.spliterator
