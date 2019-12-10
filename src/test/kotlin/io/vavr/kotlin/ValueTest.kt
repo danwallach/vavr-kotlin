@@ -75,4 +75,23 @@ class ValueTest {
         assert(!ka.isEmpty())
         assert(ka() == null)
     }
+
+    private class Eater<T> {
+        val contents: MutableList<T> = mutableListOf()
+        fun eat(x: T): Unit {
+            contents.add(x)
+        }
+    }
+
+    @Test
+    fun spliteratorWorks() {
+        val os = some("Hello") as io.vavr.Value<String>
+        val ks = os.toKotlin() // inferred type: io.vavr.kotlin.Value<String>
+
+        val split = ks.spliterator()
+        val eater = Eater<String>()
+        split.forEachRemaining { eater.eat(it) }
+        assert(eater.contents.size == 1)
+        assert(eater.contents[0] == "Hello")
+    }
 }

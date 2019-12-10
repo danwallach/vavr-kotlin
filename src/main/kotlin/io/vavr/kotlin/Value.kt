@@ -246,6 +246,12 @@ inline class Value<out T>(val value: io.vavr.Value<out T>) : Iterable<T> {
     override fun iterator()
             : Iterator<T> = value.iterator()
 
+    /**
+     * Creates a spliterator(), suitable for use in Java Streams.
+     */
+    fun spliterator()
+            : Spliterator<out T> = value.spliterator()
+
     override fun toString()
             : String = value.toString()
 
