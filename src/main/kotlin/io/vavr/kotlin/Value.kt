@@ -44,11 +44,9 @@ import io.vavr.control.Try
 import io.vavr.control.Validation
 import java.io.PrintStream
 import java.io.PrintWriter
-import java.util.*
 import java.util.HashMap
 import java.util.HashSet
 import java.util.concurrent.CompletableFuture
-import java.util.function.*
 import java.util.function.Function
 import java.util.stream.Collector
 
@@ -250,13 +248,15 @@ inline class Value<out T>(val value: io.vavr.Value<out T>) : Iterable<T> {
      * Creates a spliterator(), suitable for use in Java Streams.
      */
     fun spliterator()
-            : Spliterator<out T> = value.spliterator()
+            : java.util.Spliterator<out T> = value.spliterator()
 
     override fun toString()
             : String = value.toString()
 
-    // Note: Kotlin inline functions don't let you override equals() and hashCode(), but that
-    // will happen automatically (?).
+    // Note: Kotlin inline classes don't let you override equals() and hashCode(), saying
+    // "member with the name 'equals' is reserved for future releases", but somehow it ends
+    // up calling the internal/inlined equals() and hashCode() methods, which does the
+    // right thing. (Maybe?)
 }
 
 /**
@@ -486,7 +486,7 @@ fun <T, K, V, MAP : kotlin.collections.MutableMap<K, V>> io.vavr.kotlin.Value<T>
  * Converts this to an [java.util.Optional].
  */
 fun <T> io.vavr.kotlin.Value<T>.toJavaOptional()
-        : Optional<T>  = Value.narrow(value).toJavaOptional()
+        : java.util.Optional<T>  = Value.narrow(value).toJavaOptional()
 
 /**
  * Converts this to a mutable [kotlin.collections.MutableSet].
@@ -679,7 +679,7 @@ fun <T, K : Comparable<K>, V> io.vavr.kotlin.Value<T>.toSortedMap(f: (T) -> Tupl
  * @param V         The value type
  * @return A new [TreeMap].
  */
-fun <T, K, V> io.vavr.kotlin.Value<T>.toSortedMap(comparator: Comparator<in K>, keyMapper: (T) -> K, valueMapper: (T) -> V)
+fun <T, K, V> io.vavr.kotlin.Value<T>.toSortedMap(comparator: Comparator<K>, keyMapper: (T) -> K, valueMapper: (T) -> V)
         : SortedMap<K, V> {
     // Kotlin can't always automatically convert from its function types to Java's.
     val javaK = Function(keyMapper)
@@ -696,7 +696,7 @@ fun <T, K, V> io.vavr.kotlin.Value<T>.toSortedMap(comparator: Comparator<in K>, 
  * @param V        The value type
  * @return A new [TreeMap].
  */
-fun <T, K, V> io.vavr.kotlin.Value<T>.toSortedMap(comparator: Comparator<in K>, f: (T) -> Tuple2<out K, out V>)
+fun <T, K, V> io.vavr.kotlin.Value<T>.toSortedMap(comparator: Comparator<K>, f: (T) -> Tuple2<out K, out V>)
         : SortedMap<K, V> {
     // Kotlin can't always automatically convert from its function types to Java's.
     val javaF = Function(f)
@@ -753,7 +753,7 @@ fun <T> io.vavr.kotlin.Value<T>.toPriorityQueue()
  * @param comparator A comparator that induces an order of the PriorityQueue elements.
  * @return A new [PriorityQueue].
  */
-fun <T> io.vavr.kotlin.Value<T>.toPriorityQueue(comparator: Comparator<in T>)
+fun <T> io.vavr.kotlin.Value<T>.toPriorityQueue(comparator: Comparator<T>)
         : PriorityQueue<T> = Value.narrow(value).toPriorityQueue(comparator)
 
 /**
@@ -789,7 +789,7 @@ fun <T: Comparable<T>> io.vavr.kotlin.Value<T>.toSortedSet()
  * @param comparator A comparator that induces an order of the SortedSet elements.
  * @return A new [TreeSet].
  */
-fun <T> io.vavr.kotlin.Value<T>.toSortedSet(comparator: Comparator<in T>)
+fun <T> io.vavr.kotlin.Value<T>.toSortedSet(comparator: Comparator<T>)
         : SortedSet<T> = Value.narrow(value).toSortedSet(comparator)
 
 /**
@@ -863,7 +863,7 @@ fun <T, E> io.vavr.kotlin.Value<T>.toValid(error: E)
  * @return A new [Validation.Invalid] containing the result of `errorSupplier` if this is empty,
  * otherwise a new [Validation.Valid] containing this value.
  * @throws NullPointerException if `valueSupplier` is null
-</E> */
+ */
 @Deprecated("Use Value.toValidation instead.", ReplaceWith("toValidation(errorSupplier)"))
 fun <T, E> io.vavr.kotlin.Value<T>.toValid(errorSupplier: () -> E)
         : Validation<E, T> = toValid(errorSupplier)
